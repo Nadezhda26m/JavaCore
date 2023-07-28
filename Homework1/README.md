@@ -8,7 +8,7 @@
 
 Скомпилируйте и запустите посредством CLI
 
-## Комманды
+## Команды
 
 **JavaCore>** javac -d .\Homework1\myout\ -sourcepath .\Homework1\src\main\java\ .\Homework1\src\main\java\org\example\hw\seminar1\prod\Main.java 
 
