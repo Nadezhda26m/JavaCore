@@ -6,13 +6,21 @@ package ru.core.task2;
 public class Main02 {
     public static void main(String[] args) {
         String alphabetLowCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+        int countShift = 4;
         String string = "здеСь.должен/быТь теКст";
-        System.out.println(string);
-        String yes = ceasar(string, 4, true);
-        System.out.println(yes); // лийХѐ2итпкйс3еяЦѐ$цйОхц
-        System.out.println(ceasar(yes, 4, false));
-        System.out.println(shiftCipher(string, alphabetLowCase, 3, true));
-        // кжзФя.жсойзр/дюХя хзНфх
+        System.out.println("Оригинал:       " + string);
+        String cipherStr = ceasar(string, countShift, true);
+        System.out.println("Unicode shift:  " + cipherStr);
+        // здеСь.должен/быТь теКст
+        // лийХѐ2итпкйс3еяЦѐ$цйОхц
+        System.out.println("                "
+                + ceasar(cipherStr, countShift, false));
+        String cipherStr2 = shiftCipher(string, alphabetLowCase, countShift, true);
+        System.out.println("Alphabet shift: " + cipherStr2);
+        // здеСь.должен/быТь теКст
+        // лзиХа.зтпкис/еяЦа циОхц
+        System.out.println("                "
+                + shiftCipher(cipherStr2, alphabetLowCase, countShift, false));
     }
 
     public static String ceasar(String in, int key, boolean encrypt) {
@@ -28,18 +36,18 @@ public class Main02 {
 
     public static String shiftCipher(String original, String alphabet,
                                      int countShift, boolean encode) {
-        char[] characters = new char[alphabet.length()];
-        alphabet.getChars(0, alphabet.length(), characters, 0);
+        char[] chars = new char[alphabet.length()];
+        alphabet.getChars(0, alphabet.length(), chars, 0);
         char[] result = new char[original.length()];
         String downOriginal = original.toLowerCase();
         char newChar;
         boolean isLetter;
         for (int i = 0; i < result.length; i++) {
             isLetter = false;
-            for (int j = 0; j < characters.length; j++) {
-                if (downOriginal.charAt(i) == characters[j]) {
-                    // encode = true
-                    newChar = characters[(j + countShift) % characters.length];
+            for (int j = 0; j < chars.length; j++) {
+                if (downOriginal.charAt(i) == chars[j]) {
+                    newChar = chars[Math.abs((j + ((encode) ? countShift : -countShift)))
+                            % chars.length];
                     if (original.charAt(i) != downOriginal.charAt(i)) {
                         result[i] = Character.toUpperCase(newChar);
                     } else {
