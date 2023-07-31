@@ -8,7 +8,7 @@ public class Main02 {
         String alphabetLowCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
         int countShift = 4;
         String string = "здеСь.должен/быТь теКст";
-        System.out.println("Оригинал:       " + string);
+        System.out.println("Original:       " + string);
         String cipherStr = ceasar(string, countShift, true);
         System.out.println("Unicode shift:  " + cipherStr);
         // здеСь.должен/быТь теКст
@@ -36,28 +36,21 @@ public class Main02 {
 
     public static String shiftCipher(String original, String alphabet,
                                      int countShift, boolean encode) {
-        char[] chars = new char[alphabet.length()];
-        alphabet.getChars(0, alphabet.length(), chars, 0);
         char[] result = new char[original.length()];
         String downOriginal = original.toLowerCase();
         char newChar;
-        boolean isLetter;
+        int index;
         for (int i = 0; i < result.length; i++) {
-            isLetter = false;
-            for (int j = 0; j < chars.length; j++) {
-                if (downOriginal.charAt(i) == chars[j]) {
-                    newChar = chars[Math.abs((j + ((encode) ? countShift : -countShift)))
-                            % chars.length];
-                    if (original.charAt(i) != downOriginal.charAt(i)) {
-                        result[i] = Character.toUpperCase(newChar);
-                    } else {
-                        result[i] = newChar;
-                    }
-                    isLetter = true;
-                }
-            }
-            if (!isLetter) {
+            index = alphabet.indexOf(downOriginal.charAt(i));
+            if (index == -1) {
                 result[i] = original.charAt(i);
+            } else {
+                newChar = alphabet.charAt((alphabet.length() +
+                        (index + (encode ? countShift : -countShift)))
+                        % alphabet.length());
+                if (original.charAt(i) != downOriginal.charAt(i)) {
+                    result[i] = Character.toUpperCase(newChar);
+                } else result[i] = newChar;
             }
         }
         return new String(result);
