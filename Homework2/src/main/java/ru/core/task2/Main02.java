@@ -5,22 +5,30 @@ package ru.core.task2;
 
 public class Main02 {
     public static void main(String[] args) {
-        String alphabetLowCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-        int countShift = 4;
-        String string = "здеСь.должен/быТь теКст";
-        System.out.println("Original:       " + string);
-        String cipherStr = ceasar(string, countShift, true);
-        System.out.println("Unicode shift:  " + cipherStr);
-        // здеСь.должен/быТь теКст
-        // лийХѐ2итпкйс3еяЦѐ$цйОхц
-        System.out.println("                "
-                + ceasar(cipherStr, countShift, false));
-        String cipherStr2 = shiftCipher(string, alphabetLowCase, countShift, true);
-        System.out.println("Alphabet shift: " + cipherStr2);
-        // здеСь.должен/быТь теКст
-        // лзиХа.зтпкис/еяЦа циОхц
-        System.out.println("                "
-                + shiftCipher(cipherStr2, alphabetLowCase, countShift, false));
+        try {
+            int countShift = 4;
+            String string = "здеСь.должен/быТь теКст";
+            System.out.println("Original:       " + string);
+
+            String cipherStr = ceasar(string, countShift, true);
+            System.out.println("Unicode shift:  " + cipherStr);
+            // здеСь.должен/быТь теКст
+            // лийХѐ2итпкйс3еяЦѐ$цйОхц
+            System.out.println("Decode:         "
+                    + ceasar(cipherStr, countShift, false));
+
+            String alphabetLowCase = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+            String cipherStr2 = shiftCipher(string, alphabetLowCase, countShift, true);
+            System.out.println("Alphabet shift: " + cipherStr2);
+            // здеСь.должен/быТь теКст
+            // лзиХа.зтпкис/еяЦа циОхц
+            System.out.println("Decode:         "
+                    + shiftCipher(cipherStr2, alphabetLowCase, countShift, false));
+        } catch (RuntimeException e) {
+            System.out.println("Exception: " + e.getMessage());;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String ceasar(String in, int key, boolean encrypt) {
@@ -36,6 +44,7 @@ public class Main02 {
 
     public static String shiftCipher(String original, String alphabet,
                                      int countShift, boolean encode) {
+        checkParameters(original, alphabet, countShift);
         char[] result = new char[original.length()];
         String downOriginal = original.toLowerCase();
         char newChar;
@@ -54,5 +63,16 @@ public class Main02 {
             }
         }
         return new String(result);
+    }
+
+    private static void checkParameters(String original, String alphabet, int countShift) {
+        if (original == null || alphabet == null
+                || original.isEmpty() || alphabet.isEmpty())
+            throw new RuntimeException("Некорректные данные");
+        if (!(alphabet.matches("[а-яё]+") || alphabet.matches("[a-z]+")))
+            throw new RuntimeException("Указан неверный формат алфавита");
+        if (countShift < 0)
+            throw new RuntimeException("Некорректный ключ");
+        // if (...) { ... }
     }
 }
