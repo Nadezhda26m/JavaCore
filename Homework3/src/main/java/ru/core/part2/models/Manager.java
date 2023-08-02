@@ -10,6 +10,11 @@ public class Manager extends Worker {
     }
 
     public static void upSalary(ArrayList<Worker> workers, int minAge, int addSalary) {
+        if (workers == null) throw new RuntimeException("Массив не инициализирован");
+        if (workers.size() == 0) throw new RuntimeException("Пустой массив");
+        if (minAge < 18 || minAge > 80)
+            throw new RuntimeException("Неверно указан возраст");
+        if (addSalary < 1) throw new RuntimeException("Неверно указана з/п");
         for (Worker worker : workers) {
             if (worker.getAge() >= minAge && !(worker instanceof Manager)) {
                 worker.salary += addSalary;

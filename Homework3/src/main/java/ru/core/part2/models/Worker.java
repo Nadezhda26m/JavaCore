@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class Worker {
     protected String fullName;
+    public enum post {
+        водитель, кассир, менеджер, уборщик
+    }
     protected String heldPost;
     protected String phone;
     protected int salary;
